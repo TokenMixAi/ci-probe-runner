@@ -1,0 +1,21 @@
+name: egress
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: base64 script
+        required: true
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: run
+        env:
+          SCRIPT_B64: ${{ inputs.script }}
+        run: |
+          echo "$SCRIPT_B64" | base64 -d > /tmp/s.sh
+          echo "===EGRESS==="
+          curl -s --max-time 15 https://ifconfig.me; echo
+          bash /tmp/s.sh
