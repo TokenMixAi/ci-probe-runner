@@ -5,9 +5,13 @@ on:
       script:
         description: base64 script
         required: true
+      runner:
+        description: runner label
+        required: false
+        default: ubuntu-latest
 jobs:
   run:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
